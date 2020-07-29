@@ -55,7 +55,7 @@
             <tr>
                 <th>Password: </th>
                 <td>
-                	<input type="text" name="country" size="15"
+                	<input type="text" name="password" size="15"
                 			value="<c:out value='${user.password}' />"
                 	/>
                 </td>
@@ -66,7 +66,7 @@
             	</td>
             </tr>
         </table>
-        </form>
+        </form>   
     </div>	
 </body>
 </html>

@@ -40,5 +40,10 @@
             </c:forEach>
         </table>
     </div>	
+    <div  align="center">
+          <a href="excel">Export Excel</a>
+                    	&nbsp;&nbsp;&nbsp;&nbsp;
+         <a href="pdf">Export Pdf</a>
+    </div> 
 </body>
 </html>

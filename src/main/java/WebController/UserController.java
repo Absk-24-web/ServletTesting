@@ -3,7 +3,6 @@ package WebController;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
-
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
@@ -11,6 +10,9 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import Comman.ExcleDownload;
+import Comman.PDF_Download;
+import Comman.PasswordEncryptDcrypt;
 import Dao.UserDao;
 import Model.User;
 
@@ -19,10 +21,16 @@ import Model.User;
 public class UserController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private UserDao userDao;
+	private ExcleDownload excelDownload;
+	private PDF_Download pdf_Download; 
+	private PasswordEncryptDcrypt passwordEncryptDcrypt;
 
 	public void init() {
 		userDao = new UserDao();
-	}
+		excelDownload = new ExcleDownload();
+		pdf_Download = new PDF_Download();
+		passwordEncryptDcrypt = new	PasswordEncryptDcrypt();
+		}
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
@@ -54,6 +62,12 @@ public class UserController extends HttpServlet {
 		case "/update":
 			updateUser(request, response);
 			break;
+		case "/excel":
+			exportExcel(request, response);
+			break;
+		case "/pdf":
+			exportPdf(request, response);
+			break;
 		default:
 			try {
 				listUser(request, response);
@@ -84,8 +98,7 @@ public class UserController extends HttpServlet {
 		int id = Integer.parseInt(request.getParameter("id"));
 		String name = request.getParameter("name");
 		String email = request.getParameter("email");
-		String password = request.getParameter("country");
-
+		String password = passwordEncryptDcrypt.encrypt(request.getParameter("password"));
 		User user = new User(id, name, email, password);
 		userDao.updateUser(user);
 		response.sendRedirect("list");
@@ -102,7 +115,7 @@ public class UserController extends HttpServlet {
 	private void insertUser(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		String name = request.getParameter("name");
 		String email = request.getParameter("email");
-		String password = request.getParameter("password");
+		String password = passwordEncryptDcrypt.encrypt(request.getParameter("password"));
 		User user = new User(name, email, password);
 		userDao.registeruser(user);
 		response.sendRedirect("list");
@@ -114,6 +127,17 @@ public class UserController extends HttpServlet {
 		request.setAttribute("listUser", listUser);
 		RequestDispatcher dispatcher = request.getRequestDispatcher("user-list.jsp");
 		dispatcher.forward(request, response);
+	}
+	
+	private void exportExcel(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		 excelDownload.export();
+		 response.sendRedirect("list");
+		
+	}
+	private void exportPdf(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		 pdf_Download.export_PDF();
+		 response.sendRedirect("list");
+		
 	}
 
 }

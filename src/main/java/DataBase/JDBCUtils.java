@@ -44,7 +44,7 @@ public class JDBCUtils {
 	}
 
 	public static Date getSQLDate(LocalDate date) {
-		return Date.valueOf(date);
+		return java.sql.Date.valueOf(date);
 	}
 
 	public static LocalDate getUtilDate(Date sqlDate) {
