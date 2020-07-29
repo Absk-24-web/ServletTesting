@@ -8,20 +8,13 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.sun.corba.se.spi.servicecontext.UEInfoServiceContext;
-
 import DataBase.JDBCUtils;
 import Model.User;
 
 public class UserDao {
-	private static PreparedStatement  updateUser;
 
-	public int registeruser(User user) {
-		String INSERT_USERS_SQL = "INSERT INTO users"
-				+ "  (name,email, password) VALUES "
-				+ " (?, ?, ?);";
-
-		int result = 0;
+	public void registerUser(User user) {
+		String INSERT_USERS_SQL = "INSERT INTO users(name,email, password) VALUES(?, ?, ?);";
 		try (Connection connection = JDBCUtils.getConnection();
 				// Step 2:Create a statement using connection object
 				PreparedStatement preparedStatement = connection.prepareStatement(INSERT_USERS_SQL)) {
@@ -31,13 +24,11 @@ public class UserDao {
 
 			System.out.println(preparedStatement);
 			// Step 3: Execute the query or update query
-			result = preparedStatement.executeUpdate();
-
+			preparedStatement.executeUpdate();
 		} catch (SQLException e) {
 			// process sql exception
 			JDBCUtils.printSQLException(e);
 		}
-		return result;
 	}
 	
 	
@@ -81,7 +72,7 @@ public class UserDao {
 		String id = String.valueOf(user.getId());
 		String sql = "update users set name=?,email=?,password=? where id=?";
 		try (Connection connection = JDBCUtils.getConnection()){
-			updateUser = connection.prepareStatement(sql);
+			PreparedStatement updateUser = connection.prepareStatement(sql);
 			updateUser.setString(1, user.getName());
 			updateUser.setString(2, user.getEmail());
 			updateUser.setString(3, user.getPassword());

@@ -55,7 +55,6 @@ public class UserController extends HttpServlet {
 			try {
 				deleteUser(request, response);
 			} catch (SQLException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 			break;
@@ -72,7 +71,6 @@ public class UserController extends HttpServlet {
 			try {
 				listUser(request, response);
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			break;
@@ -117,7 +115,7 @@ public class UserController extends HttpServlet {
 		String email = request.getParameter("email");
 		String password = passwordEncryptDcrypt.encrypt(request.getParameter("password"));
 		User user = new User(name, email, password);
-		userDao.registeruser(user);
+		userDao.registerUser(user);
 		response.sendRedirect("list");
 		
 	}

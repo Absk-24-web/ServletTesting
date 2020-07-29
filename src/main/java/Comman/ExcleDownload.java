@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.sql.*;
 
 public class ExcleDownload {
-	private static PasswordEncryptDcrypt passwordEncryptDcrypt;
+	private static final PasswordEncryptDcrypt passwordEncryptDcrypt;
 
 //    public static void main(String[] args) {
 //        new ExcleDownload().export();

@@ -16,14 +16,14 @@ public class PDF_Download {
     private static final Font headerFont = new Font(Font.FontFamily.TIMES_ROMAN, 14, Font.BOLD);
     private static final Font detailFont = new Font(Font.FontFamily.TIMES_ROMAN, 16, Font.BOLD, BaseColor.DARK_GRAY);
     private static final Font normal = new Font(Font.FontFamily.TIMES_ROMAN, 12);
-    private static PasswordEncryptDcrypt passwordEncryptDcrypt = new  PasswordEncryptDcrypt();
+    private final PasswordEncryptDcrypt passwordEncryptDcrypt = new  PasswordEncryptDcrypt();
 
 
-    public static void main(String[] args) {
-        export_PDF();
-    }
+//    public static void main(String[] args) {
+//        export_PDF();
+//    }
 
-    public static void export_PDF() {
+    public  void export_PDF() {
 
         try (Connection connection = JDBCUtils.getConnection() ) {
             String sql = "SELECT * FROM users";
@@ -50,7 +50,7 @@ public class PDF_Download {
         }
     }
 
-    private static void addTitle(Document document) throws DocumentException {
+    private  void addTitle(Document document) throws DocumentException {
         Paragraph lineGaping = new Paragraph();
 
         // Lets write a big header
@@ -67,7 +67,7 @@ public class PDF_Download {
         document.add(lineGaping);
     }
 
-    private static void addTable(ResultSet result, Document document) throws DocumentException, SQLException {
+    private  void addTable(ResultSet result, Document document) throws DocumentException, SQLException {
         Paragraph tableParagraph = new Paragraph();
 
         //specify column widths
